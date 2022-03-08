@@ -55,18 +55,6 @@ def readiness():
     return Response("", status=200, mimetype="application/json")
 
 
-@bp.route('/', methods=['GET'])
-def list_all():
-    headers = request.headers
-    # check header here
-    if 'Authorization' not in headers:
-        return Response(json.dumps({"error": "missing auth"}),
-                        status=401,
-                        mimetype='application/json')
-    # list all songs here
-    return {}
-
-
 @bp.route('/<playlist_id>', methods=['GET'])
 def get_playlist(playlist_id):
     headers = request.headers
@@ -197,7 +185,7 @@ def delete_song_from_list(playlist_id):
 # All database calls will have this prefix.  Prometheus metric
 # calls will not---they will have route '/metrics'.  This is
 # the conventional organization.
-app.register_blueprint(bp, url_prefix='/api/v1/music/')
+app.register_blueprint(bp, url_prefix='/api/v1/playlist/')
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
