@@ -124,7 +124,7 @@ def delete_playlist(playlist_id):
     url = db['name'] + '/' + db['endpoint'][2]
     response = requests.delete(
         url,
-        params={"objtype": "music", "objkey": music_id},
+        params={"objtype": "playlist", "objkey": playlist_id},
         headers={'Authorization': headers['Authorization']})
     return (response.json())
 
@@ -143,7 +143,7 @@ def add_song_to_list(playlist_id):
         headers={'Authorization': headers['Authorization']})
     return (response.json())
 
-@bp.route('/delete_song_from_list/<playlist_id>', methods=['POST'])
+@bp.route('/delete_song_from_list/<playlist_id>', methods=['PUT'])
 def delete_song_from_list(playlist_id):
     headers = request.headers
     # check header here
@@ -151,10 +151,24 @@ def delete_song_from_list(playlist_id):
         return Response(json.dumps({"error": "missing auth"}),
                         status=401,
                         mimetype='application/json')
-    url = db['name'] + '/' + db['endpoint'][2]
-    response = requests.delete(
+    try:
+        content = request.get_json()
+        music_id = content['music_id']
+    except Exception:
+        return json.dumps({"message": "error reading arguments"})
+
+    songs = get_playlist(playlist_id)['Items'][0]['Songs']
+    try:
+        songs = songs.remove(music_id)
+    except Exception:
+        return json.dumps({"message": "music_id doesn't exist in the playlist"})  
+
+    payload = {"objtype": "music", "objkey": playlist_id}
+    url = db['name'] + '/' + db['endpoint'][3]
+    response = requests.put(
         url,
-        params={"objtype": "music", "objkey": music_id},
+        params=payload,
+        json={"Songs": songs},
         headers={'Authorization': headers['Authorization']})
     return (response.json())
 
