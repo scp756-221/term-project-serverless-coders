@@ -79,7 +79,7 @@ def get_playlist(playlist_id):
 
     # This version will return 500 for a fraction of its calls
     if random.randrange(100) < PERCENT_ERROR:
-        return Response(json.dumps({"error": "get_song failed"}),
+        return Response(json.dumps({"error": "get_playlist failed"}),
                         status=500,
                         mimetype='application/json')
 
@@ -184,7 +184,7 @@ def delete_song_from_list(playlist_id):
     except Exception:
         return json.dumps({"message": "music_id doesn't exist in the playlist"})  
 
-    payload = {"objtype": "music", "objkey": playlist_id}
+    payload = {"objtype": "playlist", "objkey": playlist_id}
     url = db['name'] + '/' + db['endpoint'][3]
     response = requests.put(
         url,
