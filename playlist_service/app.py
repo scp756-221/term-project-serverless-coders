@@ -29,7 +29,7 @@ PERCENT_ERROR = 50
 app = Flask(__name__)
 
 metrics = PrometheusMetrics(app)
-metrics.info('app_info', 'Music process')
+metrics.info('app_info', 'Playlist process')
 
 db = {
     "name": "http://cmpt756db:30002/api/v1/datastore",
