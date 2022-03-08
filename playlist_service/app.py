@@ -1,6 +1,6 @@
 """
 SFU CMPT 756
-Sample application---music service.
+Sample application ---  playlist service.
 """
 
 # Standard library modules
@@ -36,7 +36,8 @@ db = {
     "endpoint": [
         "read",
         "write",
-        "delete"
+        "delete",
+        "update"
     ]
 }
 bp = Blueprint('app', __name__)
@@ -66,8 +67,8 @@ def list_all():
     return {}
 
 
-@bp.route('/<music_id>', methods=['GET'])
-def get_song(music_id):
+@bp.route('/<playlist_id>', methods=['GET'])
+def get_playlist(playlist_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
@@ -91,7 +92,7 @@ def get_song(music_id):
 
 
 @bp.route('/', methods=['POST'])
-def create_song():
+def create_playlist():
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
@@ -100,20 +101,50 @@ def create_song():
                         mimetype='application/json')
     try:
         content = request.get_json()
-        Artist = content['Artist']
-        SongTitle = content['SongTitle']
+        ListName = content['ListName']
+        Songs = content['Songs']
     except Exception:
         return json.dumps({"message": "error reading arguments"})
     url = db['name'] + '/' + db['endpoint'][1]
     response = requests.post(
         url,
-        json={"objtype": "music", "Artist": Artist, "SongTitle": SongTitle},
+        json={"objtype": "paylist", "ListName": ListName, "Songs": Songs},
         headers={'Authorization': headers['Authorization']})
     return (response.json())
 
 
-@bp.route('/<music_id>', methods=['DELETE'])
-def delete_song(music_id):
+@bp.route('/<playlist_id>', methods=['DELETE'])
+def delete_playlist(playlist_id):
+    headers = request.headers
+    # check header here
+    if 'Authorization' not in headers:
+        return Response(json.dumps({"error": "missing auth"}),
+                        status=401,
+                        mimetype='application/json')
+    url = db['name'] + '/' + db['endpoint'][2]
+    response = requests.delete(
+        url,
+        params={"objtype": "music", "objkey": music_id},
+        headers={'Authorization': headers['Authorization']})
+    return (response.json())
+
+@bp.route('/add_song_to_list/<playlist_id>', methods=['POST'])
+def add_song_to_list(playlist_id):
+    headers = request.headers
+    # check header here
+    if 'Authorization' not in headers:
+        return Response(json.dumps({"error": "missing auth"}),
+                        status=401,
+                        mimetype='application/json')
+    url = db['name'] + '/' + db['endpoint'][2]
+    response = requests.delete(
+        url,
+        params={"objtype": "music", "objkey": music_id},
+        headers={'Authorization': headers['Authorization']})
+    return (response.json())
+
+@bp.route('/delete_song_from_list/<playlist_id>', methods=['POST'])
+def delete_song_from_list(playlist_id):
     headers = request.headers
     # check header here
     if 'Authorization' not in headers:
