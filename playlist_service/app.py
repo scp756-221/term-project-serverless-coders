@@ -75,7 +75,7 @@ def get_playlist(playlist_id):
         return Response(json.dumps({"error": "missing auth"}),
                         status=401,
                         mimetype='application/json')
-    payload = {"objtype": "music", "objkey": music_id}
+    payload = {"objtype": "playlist", "objkey": playlist_id}
 
     # This version will return 500 for a fraction of its calls
     if random.randrange(100) < PERCENT_ERROR:
@@ -128,7 +128,8 @@ def delete_playlist(playlist_id):
         headers={'Authorization': headers['Authorization']})
     return (response.json())
 
-@bp.route('/add_song_to_list/<playlist_id>', methods=['POST'])
+
+@bp.route('/add_song_to_list/<playlist_id>', methods=['PUT'])
 def add_song_to_list(playlist_id):
     headers = request.headers
     # check header here
@@ -136,12 +137,32 @@ def add_song_to_list(playlist_id):
         return Response(json.dumps({"error": "missing auth"}),
                         status=401,
                         mimetype='application/json')
-    url = db['name'] + '/' + db['endpoint'][2]
-    response = requests.delete(
+    payload = {"objtype": "playlist", "objkey": playlist_id}
+
+    url = db['name'] + '/' + db['endpoint'][0]
+    response = requests.get(
         url,
-        params={"objtype": "music", "objkey": music_id},
+        params=payload,
+        headers={'Authorization': headers['Authorization']})
+    songs = response.json()['Items'][0]['Songs']
+
+    try:
+        content = request.get_json()
+        Song = content['music_id']
+    except Exception:
+        return json.dumps({"message": "empty music id"})
+    if Song in songs:
+        return json.dumps({"message": "music id already exists"})
+
+    songs.append(Song)
+    url = db['name'] + '/' + db['endpoint'][3]
+    response = requests.put(
+        url,
+        params={"objtype": "playlist", "objkey": playlist_id},
+        json={"Songs": songs},
         headers={'Authorization': headers['Authorization']})
     return (response.json())
+
 
 @bp.route('/delete_song_from_list/<playlist_id>', methods=['PUT'])
 def delete_song_from_list(playlist_id):
