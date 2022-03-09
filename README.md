@@ -4,7 +4,7 @@
 
 Term Project repo
 
-## Directory structure
+## 📂 Directory structure
 
 - `s1`: This is the user service
 - `s2`: This is the music service
@@ -13,5 +13,19 @@ Term Project repo
 - `logs`: Where logs are stored
 - `music_cli`: For the music cli
 
-## Templates
+## ♐ Getting started
 
+### 1. Install dependencies
+
+- istioctl: [Link](https://istio.io/latest/docs/ops/diagnostic-tools/istioctl/)
+- kubectl: [Link](https://kubernetes.io/docs/tasks/tools/)
+- helm: [Link](https://helm.sh/docs/helm/helm_install/)
+- aws: [Link](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+### 2. Generating the make files from templates
+
+Fill in `/clusters/tpl-vars.txt` with the appropriate information. Then run:
+
+```sh
+make -f k8s-tpl.mak templates
+```
