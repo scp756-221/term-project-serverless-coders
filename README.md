@@ -21,11 +21,20 @@ Term Project repo
 - kubectl: [Link](https://kubernetes.io/docs/tasks/tools/)
 - helm: [Link](https://helm.sh/docs/helm/helm_install/)
 - aws: [Link](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+- eksctl: [Link](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html)
 
 ### 2. Generating the make files from templates
 
-Fill in `/clusters/tpl-vars.txt` with the appropriate information. Then run:
+Fill in `clusters/tpl-vars.txt` with the appropriate information. Then run:
 
 ```sh
 make -f k8s-tpl.mak templates
 ```
+
+### 3. Login using aws configure (use if not using `tools/shell.sh`)
+
+```
+aws configure
+```
+
+and copy-paste the info from `clusterse/tpl-vars.txt` into the prompts
