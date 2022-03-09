@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Project specific
+k8s.mak
+eks.mak
+az.mak
+mk.mak
+gcp.mak
+allclouds.mak
+api.mak
