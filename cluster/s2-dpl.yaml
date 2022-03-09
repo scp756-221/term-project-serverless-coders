@@ -1,4 +1,3 @@
-#
 # SFU CMPT 756
 #
 # Kubernetes yaml to deploy pods as Endpoints of a Service.
@@ -15,31 +14,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cmpt756s2-v1
+  name: cmpt756s2-v2
   labels:
     app: cmpt756s2
-    version: v1
+    version: v2
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: cmpt756s2
-      version: v1
+      version: v2
   template:
     metadata:
       name: service2-pod
       labels:
         app: cmpt756s2
-        version: v1
+        version: v2
     spec:
       serviceAccountName: svc-s2
       containers:
       - name: cmpt756s2
-        image: 'ZZ-CR-ID/ZZ-REG-ID/cmpt756s2:v1'
+        image: 'ghcr.io/omar2535/cmpt756s2:v2'
         imagePullPolicy: Always
-        env:
-          - name: EXER
-            value: v1
         ports:
         - containerPort: 30001
         livenessProbe:
