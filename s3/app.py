@@ -96,7 +96,7 @@ def create_playlist():
     url = db['name'] + '/' + db['endpoint'][1]
     response = requests.post(
         url,
-        json={"objtype": "paylist", "ListName": ListName, "Songs": Songs},
+        json={"objtype": "playlist", "ListName": ListName, "Songs": Songs},
         headers={'Authorization': headers['Authorization']})
     return (response.json())
 
