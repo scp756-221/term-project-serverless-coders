@@ -81,7 +81,7 @@ rollout-s1: s1
 # --- rollout-s2: Rollout a new deployment of S2
 rollout-s2: $(LOG_DIR)/s2.repo.log  cluster/s2-dpl.yaml
 	$(KC) -n $(APP_NS) apply -f cluster/s2-dpl.yaml | tee $(LOG_DIR)/rollout-s2.log
-	$(KC) rollout -n $(APP_NS) restart deployment/cmpt756s2 | tee -a $(LOG_DIR)/rollout-s2.log
+	$(KC) rollout -n $(APP_NS) restart deployment/cmpt756s2-$(APP_VER_TAG)2 | tee -a $(LOG_DIR)/rollout-s2.log
 
 # --- rollout-s3: Rollout a new deployment of S3
 rollout-s3: s3
