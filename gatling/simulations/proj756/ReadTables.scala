@@ -5,6 +5,13 @@ import scala.concurrent.duration._
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 
+/*
+TODO:
+1. You must run your application with up to a load of thousands of users (e.g, >1000 users) and hundreds of thousands requests (e.g., >100,00 requests/second).
+2. Other tests besides just reading from the table
+*/
+
+
 object Utility {
   /*
     Utility to get an Int from an environment variable.
@@ -28,6 +35,9 @@ object Utility {
   }
 }
 
+/*
+  Read music
+*/
 object RMusic {
 
   val feeder = csv("music.csv").eager.random
@@ -41,6 +51,9 @@ object RMusic {
 
 }
 
+/*
+  Read user
+*/
 object RUser {
 
   val feeder = csv("users.csv").eager.circular
@@ -54,6 +67,9 @@ object RUser {
 
 }
 
+/*
+  Read playlist
+*/
 object RPlaylist {
 
   val feeder = csv("playlist.csv").eager.circular
