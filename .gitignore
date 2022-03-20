@@ -136,3 +136,7 @@ mk.mak
 gcp.mak
 allclouds.mak
 api.mak
+
+# vscode
+.metals/
+.vscode/
