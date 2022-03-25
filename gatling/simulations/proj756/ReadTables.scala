@@ -46,7 +46,7 @@ object RMusic {
     feed(feeder)
     .exec(http("RMusic ${i}")
       .get("/api/v1/music/${UUID}"))
-      .pause(1)
+      .pause(Utility.envVarToInt("PAUSE_MILLI", 1000).millis)
   }
 
 }
@@ -62,7 +62,7 @@ object RUser {
     feed(feeder)
     .exec(http("RUser ${i}")
       .get("/api/v1/user/${UUID}"))
-    .pause(1)
+    .pause(Utility.envVarToInt("PAUSE_MILLI", 1000).millis)
   }
 
 }
@@ -78,7 +78,7 @@ object RPlaylist {
     feed(feeder)
     .exec(http("RPlaylist ${i}")
       .get("/api/v1/playlist/${UUID}"))
-    .pause(1)
+    .pause(Utility.envVarToInt("PAUSE_MILLI", 1000).millis)
   }
 
 }
@@ -198,6 +198,26 @@ class ReadPlaylistSim extends ReadTablesSim {
   Ramp up new users one / 10 s until requested USERS
   is reached for each service.
 */
+class ReadAllSim extends ReadTablesSim {
+  val scnReadMusic = scenario("ReadMusic")
+    .exec(RMusic.rmusic)
+  
+  val scnReadPlaylist = scenario("ReadPlaylist")
+    .exec(RPlaylist.rplaylist)
+
+  val scnReadUser = scenario("ReadUse")
+    .exec(RUser.ruser)
+
+  val users = Utility.envVarToInt("USERS", 1)
+
+  setUp(
+    // Add one user per 10 s up to specified value
+    scnReadUser.inject(atOnceUsers(Utility.envVarToInt("USERS", 1))),
+    scnReadMusic.inject(atOnceUsers(Utility.envVarToInt("USERS", 1))),
+    scnReadPlaylist.inject(atOnceUsers(Utility.envVarToInt("USERS", 1)))
+  ).protocols(httpProtocol)
+}
+
 class ReadAllVaryingSim extends ReadTablesSim {
   val scnReadMV = scenario("ReadMusicVarying")
     .exec(RMusicVarying.rmusic)
