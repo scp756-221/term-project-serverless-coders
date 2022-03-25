@@ -37,4 +37,4 @@ make -f k8s-tpl.mak templates
 aws configure
 ```
 
-and copy-paste the info from `clusterse/tpl-vars.txt` into the prompts
+and copy-paste the info from `clusters/tpl-vars.txt` into the prompts
