@@ -1,0 +1,35 @@
+name: Continuous integration for serverless coders!
+
+on:
+  push:
+    paths:
+      - s1/*
+      - s2/*
+      - s3/*
+      - loader/*
+      - db/*
+      - cluster/*
+  pull_request:
+      paths:
+      - s1/*
+      - s2/*
+      - s3/*
+      - loader/*
+      - db/*
+      - cluster/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Determine the canonical owner
+        run: |
+          tools/find-canonical-owner.sh $GITHUB_REPOSITORY ${{ github.repository_owner }} >> $GITHUB_ENV
+
+      - name: Instantiate template files based on the canonical owner
+        run: |
+          sed -e "s/ZZ-REG-ID=.*/ZZ-REG-ID=${{ env.canonical-owner }}/" cluster/tpl-vars-blank.txt > cluster/tpl-vars.txt
+          make -f k8s-tpl.mak templates
