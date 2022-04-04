@@ -129,7 +129,7 @@ if __name__ == '__main__':
         rdr = csv.reader(inp)
         next(rdr)  # Skip header
         for name, songs, uuid in rdr:
-            resp = create_song(name.strip(),
+            resp = create_playlist(name.strip(),
                                eval(songs.strip()),
                                uuid.strip())
             resp = check_resp(resp, 'playlist_id')
