@@ -16,8 +16,8 @@ import sys
 # Local modules
 import create_tables
 import music
-import user
-import playlist
+# import user
+# import playlist
 
 # The services check only that we pass an authorization,
 # not whether it's valid
