@@ -170,7 +170,7 @@ def delete_song_from_list(playlist_id):
     try:
         songs = songs.remove(music_id)
     except Exception:
-        return json.dumps({"message": "music_id doesn't exist in the playlist"})  
+        return json.dumps({"message": "music_id doesn't exist in playlist"})
 
     payload = {"objtype": "playlist", "objkey": playlist_id}
     url = db['name'] + '/' + db['endpoint'][3]
