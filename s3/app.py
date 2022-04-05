@@ -168,7 +168,7 @@ def delete_song_from_list(playlist_id):
 
     songs = get_playlist(playlist_id)['Items'][0]['Songs']
     try:
-        songs = songs.remove(music_id)
+        songs.remove(music_id)
     except Exception:
         return json.dumps({"message": "music_id doesn't exist in playlist"})
 
