@@ -33,3 +33,4 @@ def test_simple_run(mserv, song):
     assert (trc == 200 and artist == song[0] and title == song[1])
     mserv.delete(m_id)
     # No status to check
+    
