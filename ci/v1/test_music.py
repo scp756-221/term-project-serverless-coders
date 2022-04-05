@@ -29,7 +29,7 @@ def song(request):
 def test_simple_run(mserv, song):
     trc, m_id = mserv.create(song[0], song[1])
     assert trc == 200
-    trc, artist, title, oa = mserv.read(m_id)
+    trc, artist, title = mserv.read(m_id)
     assert (trc == 200 and artist == song[0] and title == song[1])
     mserv.delete(m_id)
     # No status to check
