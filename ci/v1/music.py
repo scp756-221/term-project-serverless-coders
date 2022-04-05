@@ -37,8 +37,6 @@ class Music():
             The artist performing song.
         song: string
             The name of the song.
-        orig_artist: string or None
-            The name of the original performer of this song.
 
         Returns
         -------
@@ -65,7 +63,7 @@ class Music():
 
         Returns
         -------
-        status, artist, title, orig_artist
+        status, artist, title
 
         status: number
             The HTTP status code returned by Music.
@@ -73,10 +71,6 @@ class Music():
           If status is not 200, None.
         title: If status is 200, the title of the song.
           If status is not 200, None.
-        orig_artist: If status is 200 and the song has an
-          original artist field, the artist's name.
-          If the status is not 200 or there is no original artist
-          field, None.
         """
         r = requests.get(
             self._url + m_id,

@@ -29,22 +29,22 @@ class user():
         self._auth = auth
 
     def create(self, email, fname, lname):
-        """Create an artist, song pair.
+        """Create user.
 
         Parameters
         ----------
-        artist: string
-            The artist performing song.
-        song: string
-            The name of the song.
-        orig_artist: string or None
-            The name of the original performer of this song.
+        email: string
+            The email of the user.
+        fname: string
+            The first name of the user.
+        lname: string or None
+            The last name of the user.
 
         Returns
         -------
         (number, string)
             The number is the HTTP status code returned by user.
-            The string is the UUID of this song in the user database.
+            The string is the UUID of this user in the user database.
         """
         payload = {"email": email, "fname": fname, "lname": lname}
         r = requests.post(
@@ -55,7 +55,7 @@ class user():
         return r.status_code, r.json()['user_id']
 
     def read(self, u_id):
-        """Read an artist, song pair.
+        """Read user.
 
         Parameters
         ----------
@@ -64,18 +64,16 @@ class user():
 
         Returns
         -------
-        status, artist, title, orig_artist
+        status, email, fname, lname
 
         status: number
             The HTTP status code returned by user.
-        artist: If status is 200, the artist performing the song.
+        email: If status is 200, the email of the user.
           If status is not 200, None.
-        title: If status is 200, the title of the song.
+        fname: If status is 200, the first name of the user.
           If status is not 200, None.
-        orig_artist: If status is 200 and the song has an
-          original artist field, the artist's name.
-          If the status is not 200 or there is no original artist
-          field, None.
+        lname: If status is 200, the last name of the user.
+          If status is not 200, None.
         """
         r = requests.get(
             self._url + u_id,
@@ -88,12 +86,12 @@ class user():
         return r.status_code, item['email'], item['fname'], item['lname']
 
     def delete(self, u_id):
-        """Delete an artist, song pair.
+        """Delete user.
 
         Parameters
         ----------
         u_id: string
-            The UUID of this song in the user database.
+            The UUID of this user in the user database.
 
         Returns
         -------

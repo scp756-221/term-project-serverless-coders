@@ -1,5 +1,5 @@
 """
-Test the *_original_artist routines.
+Test the user routines.
 
 These tests are invoked by running `pytest` with the
 appropriate options and environment variables, as

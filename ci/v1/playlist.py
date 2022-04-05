@@ -29,22 +29,20 @@ class playlist():
         self._auth = auth
 
     def create(self, name, songs):
-        """Create an artist, song pair.
+        """Create a playlist.
 
         Parameters
         ----------
-        artist: string
-            The artist performing song.
-        song: string
-            The name of the song.
-        orig_artist: string or None
-            The name of the original performer of this song.
+        name: string
+            The name of the playlist.
+        songs: list of string
+            Songs in the playlist.
 
         Returns
         -------
         (number, string)
             The number is the HTTP status code returned by playlist.
-            The string is the UUID of this song in the playlist database.
+            The string is the UUID of this playlist in the playlist database.
         """
         payload = {'ListName': name,
                    'Songs': songs}
@@ -74,27 +72,23 @@ class playlist():
         return r.status_code
 
     def read(self, p_id):
-        """Read an artist, song pair.
+        """Read a playlist.
 
         Parameters
         ----------
         m_id: string
-            The UUID of this song in the playlist database.
+            The UUID of this playlist in the playlist database.
 
         Returns
         -------
-        status, artist, title, orig_artist
+        status, name, songs
 
         status: number
             The HTTP status code returned by playlist.
-        artist: If status is 200, the artist performing the song.
+        name: If status is 200, the name of the playlist.
           If status is not 200, None.
-        title: If status is 200, the title of the song.
+        songs: If status is 200, the songs in the playlist.
           If status is not 200, None.
-        orig_artist: If status is 200 and the song has an
-          original artist field, the artist's name.
-          If the status is not 200 or there is no original artist
-          field, None.
         """
         r = requests.get(
             self._url + p_id,
@@ -107,12 +101,12 @@ class playlist():
         return r.status_code, item['ListName'], item['Songs']
 
     def delete(self, p_id):
-        """Delete an artist, song pair.
+        """Delete a playlist.
 
         Parameters
         ----------
         m_id: string
-            The UUID of this song in the playlist database.
+            The UUID of this playlist in the playlist database.
 
         Returns
         -------
