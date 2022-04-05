@@ -31,5 +31,15 @@ def test_simple_run(mserv, aplaylist):
     assert trc == 200
     trc, listname, songs = mserv.read(p_id)
     assert (trc == 200 and listname == aplaylist[0] and songs == aplaylist[1])
+    trc = mserv.add_song(p_id, 'song3')
+    assert trc == 200
+    trc, listname, songs = mserv.read(p_id)
+    assert (trc == 200 and listname == aplaylist[0]
+            and songs == ['song1', 'song2', 'song3'])
+    trc = mserv.delete_song(p_id, 'song3')
+    assert trc == 200
+    trc, listname, songs = mserv.read(p_id)
+    assert (trc == 200 and listname == aplaylist[0]
+            and songs == ['song1', 'song2'])
     mserv.delete(p_id)
     # No status to check

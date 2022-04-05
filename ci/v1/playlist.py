@@ -55,6 +55,24 @@ class playlist():
         )
         return r.status_code, r.json()['playlist_id']
 
+    def add_song(self, p_id, song):
+        payload = {'music_id': song}
+        r = requests.put(
+            self._url + 'add_song_to_list/' + p_id,
+            json=payload,
+            headers={'Authorization': self._auth}
+            )
+        return r.status_code
+
+    def delete_song(self, p_id, song):
+        payload = {'music_id': song}
+        r = requests.put(
+            self._url + 'delete_song_from_list/' + p_id,
+            json=payload,
+            headers={'Authorization': self._auth}
+            )
+        return r.status_code
+
     def read(self, p_id):
         """Read an artist, song pair.
 
