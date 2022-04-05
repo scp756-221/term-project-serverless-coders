@@ -101,7 +101,7 @@ class playlist():
             headers={'Authorization': self._auth}
             )
         if r.status_code != 200:
-            return r.status_code, None, None, None
+            return r.status_code, None, None
 
         item = r.json()['Items'][0]
         return r.status_code, item['ListName'], item['Songs']
