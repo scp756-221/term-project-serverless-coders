@@ -140,3 +140,6 @@ api.mak
 # vscode
 .metals/
 .vscode/
+
+# macOS
+.DS_Store
