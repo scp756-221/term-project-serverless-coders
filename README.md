@@ -101,6 +101,17 @@ To get the external IP of our application (to send requests or view dashboards s
 kubectl -n istio-system get service istio-ingressgateway | cut -c -140
 ```
 
+### 6. Setting up the autoscaler
+
+To make sure our application can handle heavy loads, we make use of the kubernetes autoscaling feature. Do this by running:
+
+```sh
+kubectl autoscale deployment cmpt756db --min=5 --max=100 --cpu-percent=50
+kubectl autoscale deployment cmpt756s1 --min=5 --max=100 --cpu-percent=50
+kubectl autoscale deployment cmpt756s2-v1 --min=5 --max=100 --cpu-percent=50
+kubectl autoscale deployment cmpt756s3 --min=5 --max=100 --cpu-percent=50
+```
+
 ## 📊 Monitoring tools
 
 Three tools are orchestrated together to create a monitoring solution for our distributed application! To set this up, run:
